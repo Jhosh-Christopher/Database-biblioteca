@@ -1,3 +1,6 @@
+# https://dbdiagram.io/d/64c44e9e02bd1c4a5ee2f213
+CREATE DATABASE IF NOT EXISTS `biblioteca`;
+use `biblioteca`;
 CREATE TABLE `autores` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
   `nome` VARCHAR(100) NOT NULL,
@@ -21,16 +24,16 @@ CREATE TABLE `usuarios` (
 
 CREATE TABLE `emprestimos` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `id_cliente` INT,
+  `id_usuarios` INT,
   `id_livro` INT,
   `data_emprestimo` DATE NOT NULL,
   `data_devolucao` DATE,
   `devolvido` BOOLEAN DEFAULT false
 );
 
-CREATE TABLE `bloqueados` (
+CREATE TABLE `bloqueadosemprestimos` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `id_cliente` INT,
+  `id_usuarios` INT,
   `motivo` VARCHAR(255) NOT NULL,
   `data_bloqueio` DATE NOT NULL
 );
@@ -43,10 +46,10 @@ CREATE TABLE `prazos` (
 
 ALTER TABLE `livros` ADD FOREIGN KEY (`id_autor`) REFERENCES `autores` (`id`);
 
-ALTER TABLE `emprestimos` ADD FOREIGN KEY (`id_cliente`) REFERENCES `usuarios` (`id`);
+ALTER TABLE `emprestimos` ADD FOREIGN KEY (`id_usuarios`) REFERENCES `usuarios` (`id`);
 
 ALTER TABLE `emprestimos` ADD FOREIGN KEY (`id_livro`) REFERENCES `livros` (`id`);
 
-ALTER TABLE `bloqueados` ADD FOREIGN KEY (`id_cliente`) REFERENCES `usuarios` (`id`);
+ALTER TABLE `bloqueados` ADD FOREIGN KEY (`id_usuarios`) REFERENCES `usuarios` (`id`);
 
 ALTER TABLE `prazos` ADD FOREIGN KEY (`id_emprestimo`) REFERENCES `emprestimos` (`id`);
